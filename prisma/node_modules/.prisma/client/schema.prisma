@@ -15,9 +15,9 @@ model Citizen {
   firstname String
   lastname String
   birthday DateTime
-  age Int
   has_voted Boolean
   street_address String
   zip_code Int
   state String
+  account_id String
 }
