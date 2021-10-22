@@ -1,0 +1,7 @@
+{
+    "functions": {
+      "api/sign_in.js": {
+        "includeFiles": "_files/**"
+      }
+    }
+  }

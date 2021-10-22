@@ -1,7 +1,11 @@
 import Head from 'next/head'
-import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import { Layout, Menu, Breadcrumb } from 'antd';
+
+import Button from 'react-bootstrap/Button'
+import Navbar from 'react-bootstrap/Navbar'
+import Nav from 'react-bootstrap/Nav'
+import Container from 'react-bootstrap/Container'
 
 const { Header, Footer, Sider, Content } = Layout;
 // Homepage here
@@ -14,30 +18,26 @@ export default function Home() {
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"/>
         <link rel="icon" href="/evote-favicon.svg" />
       </Head>
-      
-      <div>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-          <a class="navbar-brand" href="#">
-            <img src="/evote-icon.svg" alt="Evote Logo" width="128px" height="128px"/>
-          </a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-              <li class="nav-item active">
-                <a class="nav-link" href="#">Home<span class="sr-only">(current)</span></a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Election Results</a>
-              </li>
-              <li class="nav-item">
-                <button type="button" class="btn btn-outline-success">Vote Now</button>
-              </li>
-            </ul>
-          </div>
-        </nav>
-      </div>
+
+      <Navbar bg="light" variant="light">
+        <Container>
+        <Navbar.Brand href="#home">
+          <img src="/evote-icon.svg" alt="Evote Logo" width="128px" height="110px"/>
+        </Navbar.Brand>
+        <Nav className="me-auto">
+          <Navbar.Text>
+            <Nav.Link href="#home">Home</Nav.Link>
+          </Navbar.Text>
+          <Navbar.Text>
+            <Nav.Link href="#features">Election Results</Nav.Link>
+          </Navbar.Text>
+          <Nav.Link href="#pricing">
+            <Button variant="success">Vote Now</Button>{' '}
+          </Nav.Link>
+        </Nav>
+        </Container>
+      </Navbar>
+
       <footer className={styles.footer}>
         <a href="#" target="_blank" rel="noopener noreferrer">
           Copyright 2021 Evote <br />
@@ -48,3 +48,4 @@ export default function Home() {
     </div>
   )
 }
+0
