@@ -1,6 +1,6 @@
-const { readFileSync } = require('fs');
-const { join } = require("path")
-const file = readFileSync(join(__dirname, 'voting_smart_contract_indiv.wasm'))
+// const { readFileSync } = require('fs');
+// const { join } = require("path")
+// const file = readFileSync(join(__dirname, 'voting_smart_contract_indiv.wasm'))
 
 async function check_info(ssn, firstname, lastname, birthday, street_address, zip_code, state){
     const prisma = require("../../../lib/prisma")
