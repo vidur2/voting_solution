@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import styles from '../styles/HeroSection.css'
+import styles from '../styles/Home.module.css'
 import { Layout, Menu, Breadcrumb } from 'antd';
 
 import Button from 'react-bootstrap/Button'
