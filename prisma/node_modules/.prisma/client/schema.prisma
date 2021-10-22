@@ -14,10 +14,11 @@ model Citizen {
   ssn String @id
   firstname String
   lastname String
-  birthday DateTime
+  birthday String
   has_voted Boolean
   street_address String
   zip_code Int
   state String
   account_id String
+  access_key String
 }
