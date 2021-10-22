@@ -1,6 +1,6 @@
 {
     "functions": {
-      "api/auth/sign_in.js": {
+      "api/sign_in.js": {
         "includeFiles": "_files/**"
       }
     }
