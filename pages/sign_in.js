@@ -33,6 +33,7 @@ export default function LoginPage(){
                 state: state
             })
         })
+        console.log("Testing")
         //console.log(await resp.text())
         const resp_info = await resp.json()
         if (resp.status == 200){
