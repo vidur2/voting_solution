@@ -33,7 +33,7 @@ export default function LoginPage(){
                 state: state
             })
         })
-        console.log(resp.text())
+        console.log(await resp.text())
         const resp_info = resp.json()
         if (resp.status == 200){
             const form = document.getElementById("form_data");
