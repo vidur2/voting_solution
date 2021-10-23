@@ -39,14 +39,19 @@ export default function ElectionResults(){
             </Container>
         </Navbar>
             <div>
+
+            <h1 className="text-center">Current Election Results</h1>
+            <br/>
+            <br/>
+                
             <h4>Candidate 1</h4>
-            <ProgressBar variant="success" style={{height:"30px", width:"500px"}} now={40} />
+            <ProgressBar variant="success" style={{height:"30px", width:"500px", fontSize:18, fontWeight:"bold"}} now={40} label={40}/>
             <br/>
             <h4>Candidate 2</h4>
-            <ProgressBar variant="info" style={{height:"30px", width:"500px"}} now={20} />
+            <ProgressBar variant="info" style={{height:"30px", width:"500px", fontSize:18, fontWeight:"bold"}} now={20} label={20}/>
             <br/>
             <h4>Candidate 3</h4>
-            <ProgressBar variant="warning" style={{height:"30px", width:"500px"}} now={60} />
+            <ProgressBar variant="warning" style={{height:"30px", width:"500px", fontSize:18, fontWeight:"bold"}} now={60} label={60}/>
             </div>
 
             <br/>
