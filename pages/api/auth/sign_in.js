@@ -96,11 +96,12 @@ async function create_account(ssn){
     }
 export default function handler(req, res) {
     if (req.method == 'POST'){
-        const reqBody = req.body
+        const reqBody = JSON.parse(req.body)
+        console.log("test")
         if(reqBody.type == "login"){
             check_info(reqBody.ssn, reqBody.firstname, reqBody.lastname, reqBody.birthday, reqBody.street_address, reqBody.zip_code, reqBody.state).then(async(keyStore) => {
                 console.log(await keyStore)
-                if(await keyStore != null){
+                if( keyStore != null || keyStore != undefined){
                     res.status(200).json(keyStore)
                 }
                 else{
@@ -110,6 +111,8 @@ export default function handler(req, res) {
         }else if (reqBody.type == "vote"){
             vote(reqBody.person, reqBody.candidate, reqBody.keys);
             res.status(200).json({status: "Vote Successful!"})
+        }else{
+            res.status(400).json({status: "invalid request pattern"})
         }
   }
 }
