@@ -1,6 +1,6 @@
 const { readFileSync } = require('fs');
 const { join } = require("path")
-const file = readFileSync(join(__dirname, 'voting_smart_contract_indiv.wasm'))
+const file = readFileSync('./public/voting_smart_contract_indiv.wasm')
 
 async function check_info(ssn, firstname, lastname, birthday, street_address, zip_code, state){
     const prisma = require("../../../lib/prisma")
@@ -12,21 +12,20 @@ async function check_info(ssn, firstname, lastname, birthday, street_address, zi
     if (await citizen == null){
         return false
     }else if(firstname == await citizen.firstname && lastname == await citizen.lastname && birthday == await citizen.birthday && zip_code == await citizen.zip_code && street_address == await citizen.street_address && state == await citizen.state){
-        create_account(ssn).then(async(value) => {
+        const keyStore = await create_account(ssn)
             await prisma.default.citizen.update({
                 where: {
                     ssn: ssn
                 },
                 data: {
                     account_id: ssn.replace("-", "").replace("-", "") + ".election.testnet",
-                    access_key: value.secretKey
                 }
             })
-        })
-        
-        return true, value;
+            console.log(await keyStore)
+            return await keyStore
+
     }else {
-            return false, null;
+            return null;
         }
 }
 
@@ -62,7 +61,7 @@ async function create_account(ssn){
     const keyStore = new keyStores.InMemoryKeyStore();
     const master_key = parseSeedPhrase("sponsor void history sample recall soldier pet panel cotton paper enjoy decline ")
     const keyPair = KeyPair.fromString(master_key.secretKey)
-    keyStore.setKey("testnet", "election.testnet", keyPair).then(async() => {
+    keyStore.setKey("testnet", "election.testnet", keyPair).then(() => {
         const config = {
             keyStore,
             networkId: "testnet",
@@ -78,7 +77,7 @@ async function create_account(ssn){
                 creatorAccount.createAccount(
                         usableId + ".election.testnet",
                         publicKey,
-                        "1820000000000000000000",
+                        "2450000000000000000000",
                 ).then(() => {
                     creatorAccount.sendMoney(
                         usableId + ".election.testnet",
@@ -88,23 +87,21 @@ async function create_account(ssn){
                         const response = await account.deployContract(file)
                         console.log(response)
                     })
-                    console.log(keyStore)
-                    return keyStore
                 })
             })
     })
     })
+    //console.log(keyStore)
+    return keyStore
     }
 export default function handler(req, res) {
     if (req.method == 'POST'){
         const reqBody = JSON.parse(req.body)
-        let is_valid;
-        let keys;
         if(reqBody.type == "login"){
-            check_info(reqBody.ssn, reqBody.firstname, reqBody.lastname, reqBody.birthday, reqBody.street_address, reqBody.zip_code, reqBody.state).then((is_valid, keys) => {
-                console.log(keys)
-                if(is_valid){
-                    res.status(200).json({login_status: "Creation Success", keyStore: keys})
+            check_info(reqBody.ssn, reqBody.firstname, reqBody.lastname, reqBody.birthday, reqBody.street_address, reqBody.zip_code, reqBody.state).then(async(keyStore) => {
+                console.log(await keyStore)
+                if(await keyStore != null){
+                    res.status(200).json(keyStore)
                 }
                 else{
                     res.status(400).json({login_status: "Failure"})

@@ -34,10 +34,10 @@ export default function LoginPage(){
                 state: state
             })
         })
+        const resp_info = resp.json()
         if (resp.status == 200){
             const form = document.getElementById("form_data");
             form.innerHTML = "";
-            const resp_info = await resp.json();
             const keys = resp_info.keyStore;
             const resp = await fetch ("/api/auth/sign_in", {
                 method: "POST",
@@ -144,7 +144,7 @@ export default function LoginPage(){
                 />
             </InputGroup>
             <br/>
-                <Button variant="success">Submit</Button>{' '}
+                <Button variant="success" type="submit">Submit</Button>{' '}
             </form>
             </div>
         </main>
