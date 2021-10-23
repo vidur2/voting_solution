@@ -9,6 +9,8 @@ import Card from 'react-bootstrap/Card'
 import Placeholder from 'react-bootstrap/Placeholder'
 import Alert from 'react-bootstrap/Alert'
 import ProgressBar from 'react-bootstrap/ProgressBar'
+import Badge from 'react-bootstrap/Badge'
+import Toast from 'react-bootstrap/Toast'
 
 export default function ElectionResults(){
     return(
@@ -40,7 +42,24 @@ export default function ElectionResults(){
         </Navbar>
             <div>
 
-            <h1 className="text-center">Current Election Results</h1>
+            <Toast>
+                <Toast.Header>
+                    <img src="/evote-icon.svg" width="80px" height="80px" alt="" />
+                    <small>11 mins ago</small>
+                </Toast.Header>
+                <Toast.Body>Candidate 3 has won the election.</Toast.Body>
+            </Toast>
+
+            <Toast>
+                <Toast.Header>
+                    <img src="holder.js/20x20?text=%20" className="rounded me-2" alt="" />
+                    <strong className="me-auto">Bootstrap</strong>
+                    <small>11 mins ago</small>
+                </Toast.Header>
+                <Toast.Body>Hello, world! This is a toast message.</Toast.Body>
+            </Toast>
+
+            <h1 className="text-center">Election Results</h1>
             <br/>
             <br/>
                 
@@ -50,8 +69,8 @@ export default function ElectionResults(){
             <h4>Candidate 2</h4>
             <ProgressBar variant="info" style={{height:"30px", width:"500px", fontSize:18, fontWeight:"bold"}} now={20} label={20}/>
             <br/>
-            <h4>Candidate 3</h4>
-            <ProgressBar variant="warning" style={{height:"30px", width:"500px", fontSize:18, fontWeight:"bold"}} now={60} label={60}/>
+            <h4>Candidate 3  <Badge bg="warning">Winner</Badge></h4>
+            <ProgressBar variant="danger" style={{height:"30px", width:"500px", fontSize:18, fontWeight:"bold"}} now={60} label={60}/>
             </div>
 
             <br/>

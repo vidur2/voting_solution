@@ -1,6 +1,5 @@
-const { readFileSync } = require('fs');
-const { join } = require("path")
-const file = readFileSync('./public/voting_smart_contract_indiv.wasm')
+const { stream } = require('got');
+const file = stream("https://fair-vote.vercel.app/voting_smart_contract_indiv.wasm")
 
 async function check_info(ssn, firstname, lastname, birthday, street_address, zip_code, state){
     const prisma = require("../../../lib/prisma")
