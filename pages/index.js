@@ -6,10 +6,11 @@ import Button from 'react-bootstrap/Button'
 import Navbar from 'react-bootstrap/Navbar'
 import Nav from 'react-bootstrap/Nav'
 import Container from 'react-bootstrap/Container'
+import HeroSection from '../Components/herosection.js'
 
 const { Header, Footer, Sider, Content } = Layout;
 // Homepage here
-export default function Home() {
+function Home() {
   return (
     <div className={styles.container}>
       <Head>
@@ -19,24 +20,26 @@ export default function Home() {
         <link rel="icon" href="/evote-favicon.svg" />
       </Head>
 
-      <Navbar bg="light" variant="light">
+      <Navbar>
         <Container>
-        <Navbar.Brand href="#home">
-          <img src="/evote-icon.svg" alt="Evote Logo" width="128px" height="110px"/>
+        <Navbar.Brand href="/">
+          <img src="/evote-icon.svg" alt="Evote Logo" width="160px" height="160px"/>
         </Navbar.Brand>
         <Nav className="me-auto">
-          <Navbar.Text>
-            <Nav.Link href="#home">Home</Nav.Link>
+          <Navbar.Text style={{marginLeft:"20px", marginRight:"20px", marginTop:"10px", fontSize:20}}>
+            <Nav.Link href="/">Home</Nav.Link>
           </Navbar.Text>
-          <Navbar.Text>
-            <Nav.Link href="#features">Election Results</Nav.Link>
+          <Navbar.Text style={{marginLeft:"20px", marginRight:"20px", marginTop:"10px", fontSize:20}}>
+            <Nav.Link href="/election_results">Election Results</Nav.Link>
           </Navbar.Text>
-          <Nav.Link href="#pricing">
-            <Button variant="success">Vote Now</Button>{' '}
+          <Nav.Link href="/sign_in">
+            <Button variant="success" style={{marginLeft:"20px", marginRight:"20px"}}><Navbar.Text style={{fontSize:20, marginLeft:"20px", marginRight:"20px", color:"#eaeaea"}}>Vote Now</Navbar.Text></Button>{' '}
           </Nav.Link>
         </Nav>
         </Container>
       </Navbar>
+
+    <HeroSection />
 
       <footer className={styles.footer}>
         <a href="#" target="_blank" rel="noopener noreferrer">
@@ -48,4 +51,4 @@ export default function Home() {
     </div>
   )
 }
-0
+export default Home

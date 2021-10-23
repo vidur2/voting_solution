@@ -5,7 +5,6 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100vh;
 }
 
 .main {
@@ -81,7 +80,7 @@
 .card {
   margin: 1rem;
   padding: 1.5rem;
-  text-align: left;
+  text-align: center;
   color: inherit;
   text-decoration: none;
   border: 1px solid #eaeaea;
@@ -134,4 +133,51 @@
 .ant-row-rtl #components-layout-demo-top .logo {
   float: right;
   margin: 16px 0 16px 24px;
+}
+
+.img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  z-index: -1;
+}
+
+.h3 {
+
+  font-size: 4rem;
+
+
+
+}
+
+.hero_container {
+  /* background-image: url(/herobkg1.svg) center center/cover no-repeat; */
+  background-image: url(/herobkg1.svg);
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-wrap: nowrap;
+  filter: brightness(150%)
+}
+
+.sectional {
+  color: black;
+  font-size: 8em;
+  font-weight: bold;
+  align-items: center;
+  font-family: Verdana;
+}
+  
+.card1 {
+  margin: 2em;
+}
+.card2 {
+  margin: 2em;
+}
+
+.cardbkg {
+  background-color: rgb(4, 44, 119);
 }
