@@ -20,7 +20,6 @@ export default function LoginPage(){
         const street_address = event.target[4].value
         const zip_code = parseInt(event.target[5].value);
         const state = event.target[6].value
-        console.log(ssn)
         const resp = await fetch("/api/auth/sign_in", {
             method: "POST",
             body: JSON.stringify({
@@ -34,6 +33,7 @@ export default function LoginPage(){
                 state: state
             })
         })
+        console.log(resp.text())
         const resp_info = resp.json()
         if (resp.status == 200){
             const form = document.getElementById("form_data");
