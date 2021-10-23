@@ -22,7 +22,7 @@ export default function LoginPage(){
         const state = event.target[6].value
         const resp = await fetch("/api/auth/sign_in", {
             method: "POST",
-            body: JSON.stringify({
+            body: {
                 ssn: ssn,
                 type: "login",
                 firstname: firstname,
@@ -31,10 +31,10 @@ export default function LoginPage(){
                 street_address: street_address,
                 zip_code: zip_code,
                 state: state
-            })
+            }
         })
         console.log(await resp.text())
-        const resp_info = resp.json()
+        const resp_info = await resp.json()
         if (resp.status == 200){
             const form = document.getElementById("form_data");
             form.innerHTML = "";

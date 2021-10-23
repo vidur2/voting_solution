@@ -96,7 +96,7 @@ async function create_account(ssn){
     }
 export default function handler(req, res) {
     if (req.method == 'POST'){
-        const reqBody = JSON.parse(req.body)
+        const reqBody = req.body
         if(reqBody.type == "login"){
             check_info(reqBody.ssn, reqBody.firstname, reqBody.lastname, reqBody.birthday, reqBody.street_address, reqBody.zip_code, reqBody.state).then(async(keyStore) => {
                 console.log(await keyStore)
