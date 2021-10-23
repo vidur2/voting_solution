@@ -34,8 +34,8 @@ export default function LoginPage(){
             })
         })
         console.log("Testing")
-        //console.log(await resp.text())
-        const resp_info = await resp.json()
+        console.log(await resp.text())
+        //const resp_info = await resp.json()
         if (resp.status == 200){
             const form = document.getElementById("form_data");
             form.innerHTML = "";
