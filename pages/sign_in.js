@@ -161,7 +161,6 @@ export default function LoginPage(){
                 <InputGroup.Text id="inputGroup-sizing-default">State</InputGroup.Text>
                     <DropdownButton
                     variant="outline-secondary"
-                    title="Dropdown"
                     id="input-group-dropdown-1"
                     title={output}
                     onSelect={ddHandle}
