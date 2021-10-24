@@ -1,5 +1,5 @@
 const { stream } = require('got');
-const file = stream("https://fair-vote.vercel.app/voting_smart_contract_indiv.wasm")
+const file = stream("http://localhost:3000/voting_smart_contract_indiv.wasm")
 
 async function check_info(ssn, firstname, lastname, birthday, street_address, zip_code, state){
     const prisma = require("../../../lib/prisma")
@@ -10,50 +10,14 @@ async function check_info(ssn, firstname, lastname, birthday, street_address, zi
     })
     if (await citizen == null){
         return false
-    }else if(firstname == await citizen.firstname && lastname == await citizen.lastname && birthday == await citizen.birthday && zip_code == await citizen.zip_code && street_address == await citizen.street_address && state == await citizen.state){
-        const keyStore = await create_account(ssn)
-            await prisma.default.citizen.update({
-                where: {
-                    ssn: ssn
-                },
-                data: {
-                    account_id: ssn.replace("-", "").replace("-", "") + ".election.testnet",
-                }
-            })
-            console.log(await keyStore)
-            return await keyStore
-
+    }else if(firstname == await citizen.firstname && lastname == await citizen.lastname && birthday == await citizen.birthday && zip_code == await citizen.zip_code && street_address == await citizen.street_address && state == await citizen.state && citizen.account_id == ''){
+        return true
+        
     }else {
-            return null;
+        return false;
         }
 }
 
-async function vote(id, candidate, keyStore){
-    const { connect, nearAPI } = require("near-api-js");
-    const config = {
-        keyStore,
-        networkId: "testnet",
-        nodeUrl: "https://rpc.testnet.near.org"
-    }
-    connect({ ...config, keyStore }).then((near) => {
-        near.account(id + ".election.testnet").then(async (voterAccount) => {
-            const contract = new nearAPI.Contract(
-                voterAccount,
-                id + "election.testnet",
-                {
-                    changeMethods: ["vote_for_person"],
-                    sender: voterAccount
-                }
-            );
-            await contract.vote_for_person(
-                {
-                    person: candidate
-                },
-                300000000000000
-            )
-        })
-    })
-}
 async function create_account(ssn){
     const { connect, keyStores, KeyPair } = require("near-api-js");
     const { parseSeedPhrase } = require("near-seed-phrase")
@@ -77,37 +41,32 @@ async function create_account(ssn){
                         usableId + ".election.testnet",
                         publicKey,
                         "2450000000000000000000",
-                ).then(() => {
+                ).then(async() => {
                     creatorAccount.sendMoney(
                         usableId + ".election.testnet",
                         "17534947543149350000000000"
                     )
-                    near.account(usableId + ".election.testnet").then(async (account) => {
-                        const response = await account.deployContract(file)
-                        console.log(response)
-                    })
                 })
             })
     })
     })
-    //console.log(keyStore)
     return keyStore
     }
 export default function handler(req, res) {
     if (req.method == 'POST'){
         const reqBody = JSON.parse(req.body)
         if(reqBody.type == "login"){
-            check_info(reqBody.ssn, reqBody.firstname, reqBody.lastname, reqBody.birthday, reqBody.street_address, reqBody.zip_code, reqBody.state).then(async(keyStore) => {
-                console.log(await keyStore)
-                if( keyStore != null || keyStore != undefined){
-                    res.status(200).json(keyStore)
+            check_info(reqBody.ssn, reqBody.firstname, reqBody.lastname, reqBody.birthday, reqBody.street_address, reqBody.zip_code, reqBody.state).then(async(value) => {
+                if(value){
+                    res.status(200).json({login_status: "Success"})
                 }
                 else{
                     res.status(400).json({login_status: "Failure"})
                 }
             })
         }else if (reqBody.type == "vote"){
-            vote(reqBody.person, reqBody.candidate, reqBody.keys);
+            console.log(req.body)
+            vote(reqBody.person, reqBody.candidate, reqBody.keyStore);
             res.status(200).json({status: "Vote Successful!"})
         }else{
             res.status(400).json({status: "invalid request pattern"})

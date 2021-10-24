@@ -7,8 +7,17 @@ import Nav from 'react-bootstrap/Nav'
 import Container from 'react-bootstrap/Container'
 import InputGroup from 'react-bootstrap/InputGroup'
 import FormControl from 'react-bootstrap/FormControl'
+import DropdownButton from 'react-bootstrap/DropdownButton'
+import Dropdown from 'react-bootstrap/Dropdown'
+
+import React, { useEffect, useState } from "react";
 
 import HeroSection from '../Components/herosection.js'
+import { text } from 'dom-helpers';
+import fetch from 'node-fetch';
+import ElectionResults from './election_results';
+
+
 
 export default function LoginPage(){
     const informationHandoff = async(event) => {
@@ -19,7 +28,8 @@ export default function LoginPage(){
         const birthday = event.target[3].value
         const street_address = event.target[4].value
         const zip_code = parseInt(event.target[5].value);
-        const state = event.target[6].value
+        const state = document.getElementById("input-group-dropdown-1").innerHTML
+        console.log(state)
         const resp = await fetch("/api/auth/sign_in", {
             method: "POST",
             body: JSON.stringify({
@@ -33,25 +43,36 @@ export default function LoginPage(){
                 state: state
             })
         })
-        console.log("Testing")
-        const resp_info = await resp.json()
+        // const resp_info = await resp.json()
         if (resp.status == 200){
             const form = document.getElementById("form_data");
+            const title = document.getElementById("title");
             form.innerHTML = "";
-            const keys = resp_info.keyStore;
-            const resp = await fetch ("/api/auth/sign_in", {
+            title.innerHTML = "Cast your Vote!";
+            const body = new FormData
+            body.append("person", "test")
+            body.append("id", ssn.replace("-", "").replace("-", "") + ".election.testnet")
+            body.append("account_id", "election.testnet")
+            const body2 = new FormData
+            body2.append("name", ssn.replace("-", "").replace("-", ""))
+            await fetch("https://usercd38747477a7ff2.app.vtxhub.com/create_user", {
                 method: "POST",
-                body: JSON.stringify({
-                    type: "vote",
-                    candidate: "test",
-                    person: ssn,
-                    keyStore: keys
-                })
+                body: body2
+            })
+            await fetch("https://usercd38747477a7ff2.app.vtxhub.com/vote", {
+                method: 'POST',
+                body: body
             })
         }else {
-            
+            console.log("error")
         }
     }
+
+    const[output, setData] = useState("Select a State");
+    const ddHandle= eventKey => {
+        setData(eventKey);
+    }
+
     return(
         <div className={styles.container}>
             <Head>
@@ -60,94 +81,152 @@ export default function LoginPage(){
                 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossOrigin="anonymous"/>
                 <link rel="icon" href="/evote-favicon.svg" />
             </Head>
-        <main className = {styles.main}>
-            <Navbar>
-                <Container>
-                <Navbar.Brand href="/">
-                <img src="/evote-icon.svg" alt="Evote Logo" width="160px" height="160px"/>
-                </Navbar.Brand>
-                <Nav className="me-auto">
-                <Navbar.Text style={{marginLeft:"20px", marginRight:"20px", marginTop:"10px", fontSize:20}}>
-                    <Nav.Link href="/">Home</Nav.Link>
-                </Navbar.Text>
-                <Navbar.Text style={{marginLeft:"20px", marginRight:"20px", marginTop:"10px", fontSize:20}}>
-                    <Nav.Link href="/election_results">Election Results</Nav.Link>
-                </Navbar.Text>
-                <Nav.Link href="/sign_in">
-                    <Button variant="success" style={{marginLeft:"20px", marginRight:"20px"}}><Navbar.Text style={{fontSize:20, marginLeft:"20px", marginRight:"20px", color:"#eaeaea"}}>Vote Now</Navbar.Text></Button>{' '}
-                </Nav.Link>
-                </Nav>
-                </Container>
-            </Navbar>
+            <main className = {styles.main}>
+                <Navbar>
+                    <Container>
+                    <Navbar.Brand href="/">
+                    <img src="/evote-icon.svg" alt="Evote Logo" width="160px" height="160px" style={{marginLeft:"60px", marginRight:"60px"}}/>
+                    </Navbar.Brand>
+                    <Nav className="me-auto">
+                    <Navbar.Text style={{marginLeft:"60px", marginRight:"60px", marginTop:"8px", fontSize:25}}>
+                        <Nav.Link href="/">Home</Nav.Link>
+                    </Navbar.Text>
+                    <Navbar.Text style={{marginLeft:"60px", marginRight:"60px", marginTop:"8px", fontSize:25}}>
+                        <Nav.Link href="/election_results">Election Results</Nav.Link>
+                    </Navbar.Text>
+                    <Nav.Link href="/sign_in">
+                        <Button variant="success" style={{marginLeft:"60px", marginRight:"60px"}}><Navbar.Text style={{fontSize:25, marginLeft:"20px", marginRight:"20px", color:"#eaeaea"}}>Vote Now</Navbar.Text></Button>{' '}
+                    </Nav.Link>
+                    </Nav>
+                    </Container>
+                </Navbar>
 
-            <br/>
-            <h1 className="text-center">Enter Your Credentials</h1>
-            <br/>
-            <br/>
+                <br/>
+                <h1 className="text-center" id="title">Enter Your Credentials</h1>
+                <br/>
+                <br/>
 
-            <div className="text-center">
-            <form onSubmit={informationHandoff} id="form_data">
+                <div className="text-center">
+                <form onSubmit={informationHandoff} id="form_data">
 
-            <InputGroup className="mb-3">
-                <InputGroup.Text id="inputGroup-sizing-default">Social Security Number</InputGroup.Text>
-                <FormControl
-                aria-label="Default"
-                aria-describedby="inputGroup-sizing-default"
-                />
-            </InputGroup>
-            <br/>
-            <InputGroup className="mb-3">
-                <InputGroup.Text id="inputGroup-sizing-default">First Name</InputGroup.Text>
-                <FormControl
-                aria-label="Default"
-                aria-describedby="inputGroup-sizing-default"
-                />
-            </InputGroup>
-            <br/>
-            <InputGroup className="mb-3">
-                <InputGroup.Text id="inputGroup-sizing-default">Last Name</InputGroup.Text>
-                <FormControl
-                aria-label="Default"
-                aria-describedby="inputGroup-sizing-default"
-                />
-            </InputGroup>
-            <br/>
-            <InputGroup className="mb-3">
-                <InputGroup.Text id="inputGroup-sizing-default">Date of Birth (mm/dd/yyyy)</InputGroup.Text>
-                <FormControl
-                aria-label="Default"
-                aria-describedby="inputGroup-sizing-default"
-                />
-            </InputGroup>
-            <br/>
-            <InputGroup className="mb-3">
-                <InputGroup.Text id="inputGroup-sizing-default">Street Address</InputGroup.Text>
-                <FormControl
-                aria-label="Default"
-                aria-describedby="inputGroup-sizing-default"
-                />
-            </InputGroup>
-            <br/>
-            <InputGroup className="mb-3">
-                <InputGroup.Text id="inputGroup-sizing-default">Zip Code</InputGroup.Text>
-                <FormControl
-                aria-label="Default"
-                aria-describedby="inputGroup-sizing-default"
-                />
-            </InputGroup>
-            <br/>
-            <InputGroup className="mb-3">
+                <InputGroup className="mb-3">
+                    <InputGroup.Text id="inputGroup-sizing-default">Social Security Number</InputGroup.Text>
+                    <FormControl
+                    aria-label="Default"
+                    aria-describedby="inputGroup-sizing-default"
+                    />
+                </InputGroup>
+                <br/>
+                <InputGroup className="mb-3">
+                    <InputGroup.Text id="inputGroup-sizing-default">First Name</InputGroup.Text>
+                    <FormControl
+                    aria-label="Default"
+                    aria-describedby="inputGroup-sizing-default"
+                    />
+                </InputGroup>
+                <br/>
+                <InputGroup className="mb-3">
+                    <InputGroup.Text id="inputGroup-sizing-default">Last Name</InputGroup.Text>
+                    <FormControl
+                    aria-label="Default"
+                    aria-describedby="inputGroup-sizing-default"
+                    />
+                </InputGroup>
+                <br/>
+                <InputGroup className="mb-3">
+                    <InputGroup.Text id="inputGroup-sizing-default">Date of Birth (mm/dd/yyyy)</InputGroup.Text>
+                    <FormControl
+                    aria-label="Default"
+                    aria-describedby="inputGroup-sizing-default"
+                    />
+                </InputGroup>
+                <br/>
+                <InputGroup className="mb-3">
+                    <InputGroup.Text id="inputGroup-sizing-default">Street Address</InputGroup.Text>
+                    <FormControl
+                    aria-label="Default"
+                    aria-describedby="inputGroup-sizing-default"
+                    />
+                </InputGroup>
+                <br/>
+                <InputGroup className="mb-3">
+                    <InputGroup.Text id="inputGroup-sizing-default">Zip Code</InputGroup.Text>
+                    <FormControl
+                    aria-label="Default"
+                    aria-describedby="inputGroup-sizing-default"
+                    />
+                </InputGroup>
+                <br/>
+                <InputGroup className="mb-3">
                 <InputGroup.Text id="inputGroup-sizing-default">State</InputGroup.Text>
-                <FormControl
-                aria-label="Default"
-                aria-describedby="inputGroup-sizing-default"
-                />
-            </InputGroup>
-            <br/>
-                <Button variant="success" type="submit">Submit</Button>{' '}
-            </form>
-            </div>
-        </main>
-      </div>
+                    <DropdownButton
+                    variant="outline-secondary"
+                    title="Dropdown"
+                    id="input-group-dropdown-1"
+                    title={output}
+                    onSelect={ddHandle}
+                    >
+                    <div style={{height:"100px", overflowY:"auto"}}>
+                    <Dropdown.Item eventKey="Alaska">Alaska</Dropdown.Item>
+                    <Dropdown.Item eventKey="Alabama">Alabama</Dropdown.Item>
+                    <Dropdown.Item eventKey="Arkansas">Arkansas</Dropdown.Item>
+                    <Dropdown.Item eventKey="Arizona">Arizona</Dropdown.Item>
+                    <Dropdown.Item eventKey="California">California</Dropdown.Item>
+                    <Dropdown.Item eventKey="Colorado">Colorado</Dropdown.Item>
+                    <Dropdown.Item eventKey="Connecticut">Connecticut</Dropdown.Item>
+                    <Dropdown.Item eventKey="District of Columbia">District of Columbia</Dropdown.Item>
+                    <Dropdown.Item eventKey="Delaware">Delaware</Dropdown.Item>
+                    <Dropdown.Item eventKey="Florida">Florida</Dropdown.Item>
+                    <Dropdown.Item eventKey="Georgia">Georgia</Dropdown.Item>
+                    <Dropdown.Item eventKey="Hawaii">Hawaii</Dropdown.Item>
+                    <Dropdown.Item eventKey="Iowa">Iowa</Dropdown.Item>
+                    <Dropdown.Item eventKey="Idaho">Idaho</Dropdown.Item>
+                    <Dropdown.Item eventKey="Illinois">Illinois</Dropdown.Item>
+                    <Dropdown.Item eventKey="Indiana">Indiana</Dropdown.Item>
+                    <Dropdown.Item eventKey="Kansas">Kansas</Dropdown.Item>
+                    <Dropdown.Item eventKey="Kentucky">Kentucky</Dropdown.Item>
+                    <Dropdown.Item eventKey="Louisiana">Louisiana</Dropdown.Item>
+                    <Dropdown.Item eventKey="Maisssachusetts">Maisssachusetts</Dropdown.Item>
+                    <Dropdown.Item eventKey="Maryland">Maryland</Dropdown.Item>
+                    <Dropdown.Item eventKey="Maine">Maine</Dropdown.Item>
+                    <Dropdown.Item eventKey="Michigan">Michigan</Dropdown.Item>
+                    <Dropdown.Item eventKey="Minnesota">Minnesota</Dropdown.Item>
+                    <Dropdown.Item eventKey="Missouri">Missouri</Dropdown.Item>
+                    <Dropdown.Item eventKey="Mississippi">Mississippi</Dropdown.Item>
+                    <Dropdown.Item eventKey="Montana">Montana</Dropdown.Item>
+                    <Dropdown.Item eventKey="North Dakota">North Dakota</Dropdown.Item>
+                    <Dropdown.Item eventKey="Nebraska">Nebraska</Dropdown.Item>
+                    <Dropdown.Item eventKey="New Hampshire">New Hampshire</Dropdown.Item>
+                    <Dropdown.Item eventKey="New Jersey">New Jersey</Dropdown.Item>
+                    <Dropdown.Item eventKey="New Mexico">New Mexico</Dropdown.Item>
+                    <Dropdown.Item eventKey="Nevada">Nevada</Dropdown.Item>
+                    <Dropdown.Item eventKey="New York">New York</Dropdown.Item>
+                    <Dropdown.Item eventKey="Ohio">Ohio</Dropdown.Item>
+                    <Dropdown.Item eventKey="Oklahome">Oklahoma</Dropdown.Item>
+                    <Dropdown.Item eventKey="Oregon">Oregon</Dropdown.Item>
+                    <Dropdown.Item eventKey="Pennsylvania">Pennsylvania</Dropdown.Item>
+                    <Dropdown.Item eventKey="Puerto Rico">Puerto Rico</Dropdown.Item>
+                    <Dropdown.Item eventKey="Rhode Island">Rhode Island</Dropdown.Item>
+                    <Dropdown.Item eventKey="South Carolina">South Carolina</Dropdown.Item>
+                    <Dropdown.Item eventKey="Sout Dakota">South Dakota</Dropdown.Item>
+                    <Dropdown.Item eventKey="Tennessee">Tennessee</Dropdown.Item>
+                    <Dropdown.Item eventKey="Texas">Texas</Dropdown.Item>
+                    <Dropdown.Item eventKey="Utah">Utah</Dropdown.Item>
+                    <Dropdown.Item eventKey="Virginia">Virginia</Dropdown.Item>
+                    <Dropdown.Item eventKey="Vermont">Vermont</Dropdown.Item>
+                    <Dropdown.Item eventKey="Washington">Washington</Dropdown.Item>
+                    <Dropdown.Item eventKey="Wisconsin">Wisconsin</Dropdown.Item>
+                    <Dropdown.Item eventKey="West Virginia">West Virginia</Dropdown.Item>
+                    <Dropdown.Item eventKey="Wyoming">Wyoming</Dropdown.Item>
+                    </div>
+                    </DropdownButton>
+                    
+                </InputGroup>
+                <br/>
+                    <Button href="/vote" variant="success" type="submit">Submit</Button>{' '}
+                </form>
+                </div>
+            </main>
+        </div>
     )
 }

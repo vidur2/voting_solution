@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import { Layout, Menu, Breadcrumb } from 'antd';
+import React, { useEffect, useState } from "react";
 
 import Button from 'react-bootstrap/Button'
 import Navbar from 'react-bootstrap/Navbar'
@@ -23,17 +24,17 @@ function Home() {
       <Navbar>
         <Container>
         <Navbar.Brand href="/">
-          <img src="/evote-icon.svg" alt="Evote Logo" width="160px" height="160px"/>
+          <img src="/evote-icon.svg" alt="Evote Logo" width="160px" height="160px" style={{marginLeft:"60px", marginRight:"60px"}}/>
         </Navbar.Brand>
         <Nav className="me-auto">
-          <Navbar.Text style={{marginLeft:"20px", marginRight:"20px", marginTop:"10px", fontSize:20}}>
+          <Navbar.Text style={{marginLeft:"60px", marginRight:"60px", marginTop:"8px", fontSize:25}}>
             <Nav.Link href="/">Home</Nav.Link>
           </Navbar.Text>
-          <Navbar.Text style={{marginLeft:"20px", marginRight:"20px", marginTop:"10px", fontSize:20}}>
+          <Navbar.Text style={{marginLeft:"60px", marginRight:"60px", marginTop:"8px", fontSize:25}}>
             <Nav.Link href="/election_results">Election Results</Nav.Link>
           </Navbar.Text>
           <Nav.Link href="/sign_in">
-            <Button variant="success" style={{marginLeft:"20px", marginRight:"20px"}}><Navbar.Text style={{fontSize:20, marginLeft:"20px", marginRight:"20px", color:"#eaeaea"}}>Vote Now</Navbar.Text></Button>{' '}
+            <Button variant="success" style={{marginLeft:"60px", marginRight:"60px"}}><Navbar.Text style={{fontSize:25, marginLeft:"20px", marginRight:"20px", color:"#eaeaea"}}>Vote Now</Navbar.Text></Button>{' '}
           </Nav.Link>
         </Nav>
         </Container>
@@ -45,8 +46,6 @@ function Home() {
         <a href="#" target="_blank" rel="noopener noreferrer">
           Copyright 2021 Evote <br />
         </a>
-        {/* TODO I want to add the logo below the copyright but it's adding to the side*/}
-        {/* <img src="evote-icon.svg" alt="Evote Logo" width="128px" height="128px" /> */}
       </footer>
     </div>
   )

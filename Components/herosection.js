@@ -22,10 +22,10 @@ function HeroSection(){
             <br />
 
             <h1 className={styles.sectional}>
-                Voting with Transparency
+                Voting With Transparency
             </h1>
         </div><br /><br />
-        <div className="d-flex justify-content-around" >
+        <div className={styles.monkey} >
                 <Card className={styles.card1} bg="light" style={{ width: "30rem" }}>
                     <Card.Img variant="top" src="https://blogs.iadb.org/caribbean-dev-trends/wp-content/uploads/sites/34/2017/12/Blockchain1.jpg" />
                     <Card.Body>
@@ -39,7 +39,7 @@ function HeroSection(){
                     </Card.Body>
                 </Card>
 
-                <Card className={styles.card1} style={{ width: '30rem' }}>
+                <Card className={styles.card2} style={{ width: '30rem' }}>
                     <Card.Body>
                         <Card.Title>How It Works</Card.Title>
                         <Card.Text>
@@ -55,8 +55,12 @@ function HeroSection(){
                 </Card>
 
 
-            </div><br /><br /><div className="text-center">
-                <Button href="/sign_in" variant="primary" size="lg">
+            </div><br /><br /><br/><div className={styles.buttonfoot}>
+            <h3 className={styles.sectional2}>
+                What are you waiting for? Sign up to vote in way like never before. Our voting method allows your vote to be casted in the most secure way, that way no one, and nobody will be able to alter the outcome of the elction as well as see your vote. Moreover, all of your data will be kept secure, that way your life is your privacy. Now click Sign Up and Vote!
+            </h3>
+            
+                <Button className={styles.button2}href="/sign_in" variant="outline-light" size="lg">
                     Sign Up
                 </Button>
             </div><br /><br /></>

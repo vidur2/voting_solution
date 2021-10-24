@@ -25,7 +25,6 @@ impl IndivididualVote{
         }
     }
 
-    #[private]
     pub fn vote_for_person(&mut self, person: String){
         if !self.has_voted{
             let gas_count = Gas::from(BASE_GAS);
